@@ -1,13 +1,20 @@
 using UnityEngine;
 
-public class CameraMovement: Monobehaviour 
+public class CameraMovement: MonoBehaviour 
 {
 
-    [SerializedField] float MouseSensitivity = 100f;
-    [SerializedField] Transform playerBody;
-    [SerializedField] float xRotation = 0f;
+    public float MouseSensitivity = 500f;
+    
+    public Transform playerBody;
 
-    void Start() {
+    float xRotation = 0f;
+    float yRotation = 0f;
+
+    public float topClamp = -90f;
+    public float bottomClamp = 90f;
+
+    void Start() 
+    {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -16,7 +23,7 @@ public class CameraMovement: Monobehaviour
         float mouseY = Input.GetAxis("Mouse Y") * MouseSensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -topClamp, bottomClamp);
         
         transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
         playerBody.Rotate(Vector3.up * mouseX);
